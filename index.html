@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Les petits plats</title>
+
+    <link rel="stylesheet" href="./style/index.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1>
+        Les petits plats
+        <div class="round">
+          <div></div>
+        </div>
+      </h1>
+      <section class="searchZone">
+        <h1>
+          CHERCHEZ PARMI PLUS DE 1500 RECETTES<br />
+          DU QUOTIDIEN, SIMPLES ET DELICIEUSES
+        </h1>
+        <div class="mainBar">
+          <input
+            type="text"
+            name=""
+            id="search"
+            placeholder="Recherchez une recette, un ingrédient, ..."
+          />
+          <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+      </section>
+    </header>
+    <main>
+      <section class="tagsBar">
+        <div class="tagSelector">
+          <div class="label">
+            ingrédients <em class="fa-solid fa-chevron-down"></em>
+          </div>
+          <div class="items">
+            <input type="text" />
+            <ul class="ingList"></ul>
+          </div>
+        </div>
+        <div class="tagSelector">
+          <div class="label">
+            ingrédients <em class="fa-solid fa-chevron-down"></em>
+          </div>
+          <div class="items">
+            <input type="text" />
+            <ul>
+              <li>ing1</li>
+              <li>ing2</li>
+              <li>ing3</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tagSelector">
+          <div class="label">
+            ingrédients <em class="fa-solid fa-chevron-down"></em>
+          </div>
+          <div class="items">
+            <input type="text" />
+            <ul>
+              <li>ing1</li>
+              <li>ing2</li>
+              <li>ing3</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <section class="recipesContainer"></section>
+    </main>
+    <script type="module" src="./script/page/index.js"></script>
+    <script
+      src="https://kit.fontawesome.com/c0100ccffa.js"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

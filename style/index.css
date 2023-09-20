@@ -1,0 +1,191 @@
+body {
+  margin: 0;
+  padding: 0;
+
+  --yellow: #ffd15b;
+}
+
+header {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1% 3%;
+  background: url("../assets/lamposHeader.png");
+  background-size: cover;
+  background-position: center;
+}
+
+header > h1 {
+  color: white;
+  font-size: 2.3em;
+}
+
+header > h1 .round {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  background-color: white;
+  position: relative;
+  bottom: 1px;
+}
+
+header > h1 .round > div {
+  width: 9px;
+  height: 9px;
+  border-radius: 5px;
+  background-color: white;
+  border: 2px solid black;
+  box-sizing: border-box;
+}
+
+/***** Section 1 header *****/
+
+header section.searchZone h1 {
+  width: max-content;
+  font-size: 1.6em;
+  margin: 100px auto 0 auto;
+  color: var(--yellow);
+}
+
+header section.searchZone .mainBar {
+  margin: 100px 20%;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+header section.searchZone .mainBar input {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  position: relative;
+  padding-left: 10px;
+}
+
+header section.searchZone .mainBar button {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  position: absolute;
+  right: 5px;
+  border: none;
+  background-color: black;
+  color: white;
+}
+
+/****** main *****/
+
+main {
+  background-color: lightgrey;
+  padding: 40px 60px;
+}
+
+section.tagsBar {
+  display: flex;
+  gap: 100px;
+}
+
+section.tagsBar .tagSelector {
+  width: 170px;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  padding: 10px 0px;
+}
+
+section.tagsBar .tagSelector .label {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    width: 170px;
+    height: 69px;
+    line-height: 69px;
+    background-color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 0 22px;
+    position: relative;
+    border-radius: 10px;
+    z-index: 101;
+    transition: 500ms;
+    align-items: center;
+}
+
+section.tagsBar .tagSelector .label em {
+    transform: rotate(0deg);
+    transition: 500ms;
+}
+
+section.tagsBar .tagSelector .label.active em {
+    transform: rotate(180deg);
+    transition: 500ms;
+}
+
+section.tagsBar .tagSelector .items {
+  opacity: 0;
+  width: 214px;
+  position: absolute;
+  left: 0;
+  top: -60px;
+  background-color: white;
+  z-index: 10;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 0 0 10px 10px;
+}
+
+section.tagsBar .tagSelector .items.active {
+    animation-duration: 1000ms;
+    animation-fill-mode: forwards;
+    animation-name: deployed;
+}
+
+section.tagsBar .tagSelector .items.unactive {
+    animation-duration: 1000ms;
+    animation-fill-mode: forwards;
+    animation-name: undeployed;
+}
+
+@keyframes deployed {
+  from {
+    opacity: 0;
+    top: -60px;
+  }
+  20% {
+    opacity: 0;
+    top: 0;
+  }
+  to {
+    opacity: 1;
+    top: 69px;
+  }
+}
+
+@keyframes undeployed {
+  from {
+    opacity: 1;
+    top: 60px;
+  }
+  to {
+    opacity: 0;
+    top: 0px;
+  }
+}
+
+section.tagsBar .tagSelector .items ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+section.tagsBar .tagSelector .items ul li {
+    padding: 10px 20px;
+}
+
+section.tagsBar .tagSelector .items input {
+  width: 90%;
+  margin: 0 auto 10px 0;
+}
