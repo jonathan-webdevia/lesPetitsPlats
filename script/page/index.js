@@ -1,110 +1,67 @@
+/* ***** import utils functions ***** */
 import { recipes } from "../../data/recipes.js";
+import { globalSearch } from "../functions/globalSearch.js";
+import { tagsListCreator, tagsSelector } from "../functions/tagsListCreator.js";
+import { deployTagsItems } from "../functions/deployTagsItems.js";
 
+/* ***** import utils class ***** */
+import { DisplayData } from "../templates/DisplayData.js";
+
+/* ***** DOM's elements ***** */
 const inputSearch = document.querySelector("#search");
-
 const recipesContainer = document.querySelector(".recipesContainer");
 
-const displayRecipeEngine = (recipeList) => {
+/* ***** create utils variables ***** */
+let displayIt = [];
+let ingredientsList = [];
+let applianceList = [];
+let ustensilsList = [];
+
+const initialization = () => {
+  /* ***** array list affectation & call of template ***** */
+  displayIt = recipes;
   recipesContainer.innerHTML = "";
-  recipeList.forEach((recipe) => {
-    const title = document.createElement("h2");
-    title.textContent = recipe.name;
-    const description = document.createElement("p");
-    description.innerText = recipe.description;
-    const ingList = document.createElement("ul");
-    recipe.ingredients.forEach((ingredient) => {
-      const item = document.createElement("li");
-      item.innerText = ingredient.ingredient;
-      ingList.appendChild(item);
-    });
-    recipesContainer.appendChild(title);
-    recipesContainer.appendChild(description);
-    recipesContainer.appendChild(ingList);
-  });
-};
-
-const globalSearch = async (userInput) => {
-  /* console.clear();
-  console.log(userInput);
-  const regex = new RegExp(`${userInput.toLowerCase()}`);
-  console.log(regex); */
-
-  console.clear();
-
-  let recipeDisplay = [];
-  let ingredientsList = [];
-  let applianceList = [];
-  let ustencilsList = [];
-
-  recipeDisplay = recipes.filter((recipe) => {
-    if (
-      recipe.name.toLowerCase().includes(userInput.toLowerCase()) ||
-      recipe.description.toLowerCase().includes(userInput.toLowerCase()) ||
-      recipe.ingredients.some((ing) =>
-        ing.ingredient.toLowerCase().includes(userInput)
-      )
-    ) {
-      if (!applianceList.includes(recipe.appliance.toLowerCase())) {
-        applianceList.push(recipe.appliance.toLowerCase());
-      }
-      recipe.ustensils.forEach((ustensil) => {
-        if (!ustencilsList.includes(ustensil.toLowerCase())) {
-          ustencilsList.push(ustensil.toLowerCase());
-        }
-      });
-      recipe.ingredients.forEach((elmt) => {
-        if (!ingredientsList.includes(elmt.ingredient.toLowerCase())) {
-          ingredientsList.push(elmt.ingredient.toLowerCase());
-        }
-      });
-      const ingList = document.querySelector(".tagsBar .ingList");
-      ingList.innerHTML = "";
-      ingredientsList.forEach((ingredient) => {
-        const item = document.createElement("li");
-        item.textContent = ingredient;
-        ingList.appendChild(item);
-      })
-      return true;
-    } else {
-      return false;
-    }
+  displayIt.forEach((recipe) => {
+    const displayTemplate = new DisplayData(recipe);
+    const article = displayTemplate.cardsTemplate();
+    recipesContainer.appendChild(article);
   });
 
-  console.log(ingredientsList);
+  /* ***** tags list affectation ***** */
+  ingredientsList = tagsListCreator(displayIt).ingredientsList;
+  applianceList = tagsListCreator(displayIt).applianceList;
+  ustensilsList = tagsListCreator(displayIt).ustensilsList;
 
-  displayRecipeEngine(recipeDisplay);
+  const tagSelectorEngine = tagsSelector();
 };
 
 inputSearch.addEventListener("input", () => {
-  if (inputSearch.value.length > 2) {
-    globalSearch(inputSearch.value);
+  /* ***** lunch research only if + 3 charac ***** */
+  if (inputSearch.value.length >= 3) {
+    /* ***** array list affectation & call of template ***** */
+    displayIt = globalSearch(recipes, inputSearch.value);
+    recipesContainer.innerHTML = "";
+    displayIt.forEach((recipe) => {
+      const displayTemplate = new DisplayData(recipe);
+      const article = displayTemplate.cardsTemplate();
+      recipesContainer.appendChild(article);
+    });
+
+    /* ***** tags list affectation ***** */
+    ingredientsList = tagsListCreator(displayIt).ingredientsList;
+    applianceList = tagsListCreator(displayIt).applianceList;
+    ustensilsList = tagsListCreator(displayIt).ustensilsList;
+
+    const tagSelectorEngine = tagsSelector();
   } else {
-    displayRecipeEngine(recipes);
+    initialization();
   }
 });
 
-displayRecipeEngine(recipes);
-
-const labelSelector = document.querySelectorAll(".tagsBar .tagSelector .label");
-
-const deployTagsItems = (label) => {
-  label.addEventListener("click", () => {
-    const tagSelector = label.closest(".tagSelector");
-    const itemsList = tagSelector.children[1];
-    if (!itemsList.classList.contains("active")) {
-      itemsList.classList.remove("unactive");
-      itemsList.classList.add("active");
-      label.classList.remove("unactive");
-      label.classList.add("active");
-    } else {
-      itemsList.classList.remove("active");
-      itemsList.classList.add("unactive");
-      label.classList.remove("active");
-      label.classList.add("unactive");
-    }
-  });
-};
-
-labelSelector.forEach((label) => {
+/* ***** tags engine section ***** */
+const tagsLabel = document.querySelectorAll("#tagsBar .tagSelector .label");
+tagsLabel.forEach((label) => {
   deployTagsItems(label);
-});
+})
+
+initialization();

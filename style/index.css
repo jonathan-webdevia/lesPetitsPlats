@@ -83,12 +83,12 @@ main {
   padding: 40px 60px;
 }
 
-section.tagsBar {
+section#tagsBar {
   display: flex;
   gap: 100px;
 }
 
-section.tagsBar .tagSelector {
+section#tagsBar .tagSelector {
   width: 170px;
   border-radius: 10px;
   cursor: pointer;
@@ -96,7 +96,7 @@ section.tagsBar .tagSelector {
   padding: 10px 0px;
 }
 
-section.tagsBar .tagSelector .label {
+section#tagsBar .tagSelector .label {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -114,17 +114,18 @@ section.tagsBar .tagSelector .label {
     align-items: center;
 }
 
-section.tagsBar .tagSelector .label em {
+section#tagsBar .tagSelector .label em {
     transform: rotate(0deg);
     transition: 500ms;
 }
 
-section.tagsBar .tagSelector .label.active em {
+section#tagsBar .tagSelector .label.active em {
     transform: rotate(180deg);
     transition: 500ms;
 }
 
-section.tagsBar .tagSelector .items {
+section#tagsBar .tagSelector .items {
+  display: none;
   opacity: 0;
   width: 214px;
   position: absolute;
@@ -137,13 +138,13 @@ section.tagsBar .tagSelector .items {
   border-radius: 0 0 10px 10px;
 }
 
-section.tagsBar .tagSelector .items.active {
+section#tagsBar .tagSelector .items.active {
     animation-duration: 1000ms;
     animation-fill-mode: forwards;
     animation-name: deployed;
 }
 
-section.tagsBar .tagSelector .items.unactive {
+section#tagsBar .tagSelector .items.unactive {
     animation-duration: 1000ms;
     animation-fill-mode: forwards;
     animation-name: undeployed;
@@ -152,6 +153,7 @@ section.tagsBar .tagSelector .items.unactive {
 @keyframes deployed {
   from {
     opacity: 0;
+    z-index: 10;
     top: -60px;
   }
   20% {
@@ -160,6 +162,7 @@ section.tagsBar .tagSelector .items.unactive {
   }
   to {
     opacity: 1;
+    z-index: 12;
     top: 69px;
   }
 }
@@ -167,25 +170,36 @@ section.tagsBar .tagSelector .items.unactive {
 @keyframes undeployed {
   from {
     opacity: 1;
+    z-index: 12;
     top: 60px;
   }
   to {
     opacity: 0;
+    z-index: 10;
     top: 0px;
   }
 }
 
-section.tagsBar .tagSelector .items ul {
+section#tagsBar .tagSelector .items input {
+  width: 90%;
+  margin: 0 auto 10px 0;
+}
+
+section#tagsBar .tagSelector .items ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-section.tagsBar .tagSelector .items ul li {
+section#tagsBar .tagSelector .items ul li {
     padding: 10px 20px;
 }
 
-section.tagsBar .tagSelector .items input {
-  width: 90%;
-  margin: 0 auto 10px 0;
+section#tagsBar .tagSelector .items ul li button.active {
+  background-color: red;
+}
+
+section#tagsContainer {
+  position: relative;
+  z-index: 11;
 }

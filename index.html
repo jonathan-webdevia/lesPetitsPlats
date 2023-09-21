@@ -34,7 +34,7 @@
       </section>
     </header>
     <main>
-      <section class="tagsBar">
+      <section id="tagsBar">
         <div class="tagSelector">
           <div class="label">
             ingrédients <em class="fa-solid fa-chevron-down"></em>
@@ -46,31 +46,24 @@
         </div>
         <div class="tagSelector">
           <div class="label">
-            ingrédients <em class="fa-solid fa-chevron-down"></em>
+            Appareil <em class="fa-solid fa-chevron-down"></em>
           </div>
           <div class="items">
             <input type="text" />
-            <ul>
-              <li>ing1</li>
-              <li>ing2</li>
-              <li>ing3</li>
-            </ul>
+            <ul class="appList"></ul>
           </div>
         </div>
         <div class="tagSelector">
           <div class="label">
-            ingrédients <em class="fa-solid fa-chevron-down"></em>
+            ustensiles <em class="fa-solid fa-chevron-down"></em>
           </div>
           <div class="items">
             <input type="text" />
-            <ul>
-              <li>ing1</li>
-              <li>ing2</li>
-              <li>ing3</li>
-            </ul>
+            <ul class="ustList"></ul>
           </div>
         </div>
       </section>
+      <section id="tagsContainer"></section>
       <section class="recipesContainer"></section>
     </main>
     <script type="module" src="./script/page/index.js"></script>
