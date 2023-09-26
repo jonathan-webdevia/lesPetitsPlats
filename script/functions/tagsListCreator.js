@@ -1,15 +1,14 @@
-const tagsListCreator = (list) => {
-  /* ***** DOM's elements ***** */
-  const ingList = document.querySelector(".ingList");
-  const appList = document.querySelector(".appList");
-  const ustList = document.querySelector(".ustList");
+import { globalSearch, tagsSearch } from "./SearchEngine.js";
 
+const tagsListCreator = (list) => {
+  console.log(list)
   /* ***** tags results list ***** */
   let ingredientsList = [];
   let applianceList = [];
   let ustensilsList = [];
 
   list.forEach((element) => {
+    console.log(element);
     /* ***** ingredients tags list ***** */
     element.ingredients.forEach((ing) => {
       if (!ingredientsList.includes(ing.ingredient.toLowerCase())) {
@@ -23,68 +22,22 @@ const tagsListCreator = (list) => {
     }
 
     /* ***** ustencils tags list ***** */
-    element.ustensils.forEach((ust) => {
-      if (!ustensilsList.includes(ust)) {
-        ustensilsList.push(ust);
-      }
-    });
-  });
-
-  /* ***** update DOM's taglist ***** */
-  ingList.innerHTML = "";
-  ingredientsList.forEach((ingredient) => {
-    const listItem = document.createElement("li");
-    const button = document.createElement("button");
-    button.setAttribute("data-tagtype", "ing");
-    button.setAttribute("data-tag", ingredient);
-    button.setAttribute("type", "button");
-    button.setAttribute("class", ingredient.split(/\s+/).join());
-    button.classList.add("tag");
-    button.textContent = ingredient;
-    listItem.appendChild(button);
-    ingList.appendChild(listItem);
-  });
-
-  appList.innerHTML = "";
-  applianceList.forEach((appliance) => {
-    const listItem = document.createElement("li");
-    const button = document.createElement("button");
-    button.setAttribute("data-tagtype", "app");
-    button.setAttribute("data-tag", appliance);
-    button.setAttribute("type", "button");
-    button.setAttribute("class", appliance.split(/\s+/).join());
-    button.classList.add("tag");
-    button.textContent = appliance;
-    listItem.appendChild(button);
-    appList.appendChild(listItem);
-  });
-
-  ustList.innerHTML = "";
-  ustensilsList.forEach((ustensil) => {
-    const listItem = document.createElement("li");
-    const button = document.createElement("button");
-    button.setAttribute("data-tagtype", "ust");
-    button.setAttribute("data-tag", ustensil);
-    button.setAttribute("type", "button");
-    button.setAttribute("class", ustensil.split(/\s+/).join());
-    button.classList.add("tag");
-    button.textContent = ustensil;
-    listItem.appendChild(button);
-    ustList.appendChild(listItem);
+    console.log(element);
   });
 
   return { ingredientsList, applianceList, ustensilsList };
 };
 
-const tagsDisplayer = (bool, data) => {
+const tagsDisplayer = (bool, data, datatype) => {
   const tagsContainer = document.querySelector("#tagsContainer");
   const tagsSelector = document.querySelectorAll(".tag");
   if (bool) {
     const button = document.createElement("button");
-    button.textContent = data;
+    button.innerHTML = `${data}<i class="fa-solid fa-xmark"></i>`;
     button.setAttribute("class", "untag");
     button.classList.add(data.split(/\s+/).join());
     button.setAttribute("data-tag", data);
+    button.setAttribute("data-tagtype", datatype);
     tagsContainer.appendChild(button);
   } else {
     const btnList = tagsContainer.childNodes;
@@ -107,8 +60,9 @@ const tagsDisplayer = (bool, data) => {
   });
 };
 
-const tagsSelector = () => {
+const tagsSelector = (displayIt) => {
   /* ***** Select * btns ***** */
+
   const tagBtns = document.querySelectorAll(".tag");
 
   tagBtns.forEach((tagBtn) => {
@@ -120,11 +74,19 @@ const tagsSelector = () => {
         tagBtn.classList.add("active");
         item.remove();
         list.prepend(item);
-        tagsDisplayer(true, tagBtn.dataset.tag);
+        tagsDisplayer(true, tagBtn.dataset.tag, tagBtn.dataset.tagtype);
       } else {
         tagBtn.classList.remove("active");
-        tagsDisplayer(false, tagBtn.dataset.tag);
+        tagsDisplayer(false, tagBtn.dataset.tag, tagBtn.dataset.tagtype);
       }
+
+      let tagListResearch = document.querySelectorAll(".untag");
+
+      tagListResearch.forEach((btn) => {
+        // console.log(btn);
+        // console.log(displayIt);
+        tagsSearch(displayIt, tagBtn.dataset.tag, tagBtn.dataset.tagtype);
+      });
     });
   });
 };

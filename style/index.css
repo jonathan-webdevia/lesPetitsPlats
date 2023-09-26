@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "anton";
+  src: url("../assets/font/Anton-Regular.ttf") format("truetype");
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -43,10 +48,12 @@ header > h1 .round > div {
 /***** Section 1 header *****/
 
 header section.searchZone h1 {
+  font-family: anton;
   width: max-content;
-  font-size: 1.6em;
+  font-size: 1.8em;
   margin: 100px auto 0 auto;
   color: var(--yellow);
+  font-weight: normal;
 }
 
 header section.searchZone .mainBar {
@@ -85,52 +92,52 @@ main {
 
 section#tagsBar {
   display: flex;
-  gap: 100px;
+  gap: 60px;
 }
 
 section#tagsBar .tagSelector {
-  width: 170px;
+  width: 150px;
   border-radius: 10px;
   cursor: pointer;
   position: relative;
-  padding: 10px 0px;
+  padding: 5px 0px;
 }
 
 section#tagsBar .tagSelector .label {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    width: 170px;
-    height: 69px;
-    line-height: 69px;
-    background-color: white;
-    font-size: 1.2em;
-    cursor: pointer;
-    padding: 0 22px;
-    position: relative;
-    border-radius: 10px;
-    z-index: 101;
-    transition: 500ms;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  width: 150px;
+  height: 55px;
+  line-height: 69px;
+  background-color: white;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 0 22px;
+  position: relative;
+  border-radius: 10px;
+  z-index: 101;
+  transition: 500ms;
+  align-items: center;
 }
 
 section#tagsBar .tagSelector .label em {
-    transform: rotate(0deg);
-    transition: 500ms;
+  transform: rotate(0deg);
+  transition: 500ms;
 }
 
 section#tagsBar .tagSelector .label.active em {
-    transform: rotate(180deg);
-    transition: 500ms;
+  transform: rotate(180deg);
+  transition: 500ms;
 }
 
 section#tagsBar .tagSelector .items {
   display: none;
   opacity: 0;
-  width: 214px;
+  width: 194px;
   position: absolute;
   left: 0;
-  top: -60px;
+  top: -50px;
   background-color: white;
   z-index: 10;
   padding: 10px;
@@ -139,22 +146,22 @@ section#tagsBar .tagSelector .items {
 }
 
 section#tagsBar .tagSelector .items.active {
-    animation-duration: 1000ms;
-    animation-fill-mode: forwards;
-    animation-name: deployed;
+  animation-duration: 1000ms;
+  animation-fill-mode: forwards;
+  animation-name: deployed;
 }
 
 section#tagsBar .tagSelector .items.unactive {
-    animation-duration: 1000ms;
-    animation-fill-mode: forwards;
-    animation-name: undeployed;
+  animation-duration: 1000ms;
+  animation-fill-mode: forwards;
+  animation-name: undeployed;
 }
 
 @keyframes deployed {
   from {
     opacity: 0;
     z-index: 10;
-    top: -60px;
+    top: -50px;
   }
   20% {
     opacity: 0;
@@ -163,7 +170,7 @@ section#tagsBar .tagSelector .items.unactive {
   to {
     opacity: 1;
     z-index: 12;
-    top: 69px;
+    top: 52px;
   }
 }
 
@@ -186,20 +193,42 @@ section#tagsBar .tagSelector .items input {
 }
 
 section#tagsBar .tagSelector .items ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 section#tagsBar .tagSelector .items ul li {
-    padding: 10px 20px;
+  padding: 10px 20px;
 }
 
-section#tagsBar .tagSelector .items ul li button.active {
+section#tagsBar button[data-active="true"] {
   background-color: red;
 }
 
 section#tagsContainer {
   position: relative;
   z-index: 11;
+  margin-top: 20px;
+}
+
+section#tagsContainer button {
+  display: inline-block;
+  height: 40px;
+  background-color: var(--yellow);
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2em;
+  margin-right: 15px;
+  padding: 0 10px;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+section#tagsContainer button i {
+  margin-left: 15px;
+}
+
+section#tagsContainer button.active {
+  background-color: red;
 }
