@@ -3,6 +3,11 @@
   src: url("../assets/font/Anton-Regular.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "manrope";
+  src: url("../assets/font/Manrope-VariableFont_wght.ttf") format("truetype");
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -46,18 +51,19 @@ header > h1 .round > div {
 }
 
 /***** Section 1 header *****/
-
 header section.searchZone h1 {
   font-family: anton;
-  width: max-content;
+  width: 60%;
   font-size: 1.8em;
   margin: 100px auto 0 auto;
   color: var(--yellow);
   font-weight: normal;
+  text-align: center;
 }
 
 header section.searchZone .mainBar {
-  margin: 100px 20%;
+  width: 60%;
+  margin: 100px auto;
   position: relative;
   display: flex;
   align-items: center;
@@ -83,6 +89,27 @@ header section.searchZone .mainBar button {
   color: white;
 }
 
+@media screen and (max-width: 800px) {
+  header section.searchZone h1 {
+    width: 80%;
+  }
+
+  header section.searchZone .mainBar {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  header section.searchZone h1 {
+    width: 90%;
+    font-size: 1.4em;
+  }
+
+  header section.searchZone .mainBar {
+    width: 90%;
+  }
+}
+
 /****** main *****/
 
 main {
@@ -90,24 +117,60 @@ main {
   padding: 40px 60px;
 }
 
+@media screen and (max-width: 600px) {
+  main {
+    padding: 20px;
+  }
+}
+
 section#tagsBar {
   display: flex;
-  gap: 60px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+section#tagsBar .tagsSelectorContainer {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+section#tagsBar #nbrRecipes {
+  font-size: 1.3em;
+  width: 100px;
+  height: max-content;
 }
 
 section#tagsBar .tagSelector {
-  width: 150px;
+  width: 200px;
   border-radius: 10px;
   cursor: pointer;
   position: relative;
   padding: 5px 0px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 992px) {
+  section#tagsBar {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  section#tagsBar .tagsSelectorContainer {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  section#tagsBar .tagSelector {
+    width: 100%;
+  }
 }
 
 section#tagsBar .tagSelector .label {
-  width: 100%;
   display: flex;
+  position: relative;
   justify-content: space-between;
-  width: 150px;
+  width: 100%;
   height: 55px;
   line-height: 69px;
   background-color: white;
@@ -116,9 +179,10 @@ section#tagsBar .tagSelector .label {
   padding: 0 22px;
   position: relative;
   border-radius: 10px;
-  z-index: 101;
+  z-index: 9;
   transition: 500ms;
   align-items: center;
+  box-sizing: border-box;
 }
 
 section#tagsBar .tagSelector .label em {
@@ -134,24 +198,30 @@ section#tagsBar .tagSelector .label.active em {
 section#tagsBar .tagSelector .items {
   display: none;
   opacity: 0;
-  width: 194px;
+  width: 100%;
   position: absolute;
   left: 0;
   top: -50px;
   background-color: white;
   z-index: 10;
-  padding: 10px;
   box-sizing: border-box;
   border-radius: 0 0 10px 10px;
 }
 
+section#tagsBar .tagSelector .items button {
+  text-align: left;
+  padding-left: 10px;
+}
+
 section#tagsBar .tagSelector .items.active {
+  display: block;
   animation-duration: 1000ms;
   animation-fill-mode: forwards;
   animation-name: deployed;
 }
 
 section#tagsBar .tagSelector .items.unactive {
+  display: none;
   animation-duration: 1000ms;
   animation-fill-mode: forwards;
   animation-name: undeployed;
@@ -187,9 +257,35 @@ section#tagsBar .tagSelector .items.unactive {
   }
 }
 
-section#tagsBar .tagSelector .items input {
-  width: 90%;
-  margin: 0 auto 10px 0;
+section#tagsBar .tagSelector .searchTags {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+section#tagsBar .tagSelector .items .searchTags input {
+  display: block;
+  width: 100%;
+  height: 25px;
+  margin: 20px 10px;
+  border-radius: 2px;
+  border: 1px solid grey;
+}
+
+section#tagsBar .tagSelector .items .searchTags button {
+  width: 25px;
+  height: 25px;
+  background-color: none;
+  position: absolute;
+  color: grey;
+  right: 10px;
+}
+
+section#tagsBar .tagSelector .items .searchTags button.reset {
+  width: 15px;
+  height: 25px;
+  right: 35px;
 }
 
 section#tagsBar .tagSelector .items ul {
@@ -200,10 +296,19 @@ section#tagsBar .tagSelector .items ul {
 
 section#tagsBar .tagSelector .items ul li {
   padding: 10px 20px;
+  margin: 0;
+  padding: 0;
+}
+
+section#tagsBar button {
+  width: 100%;
+  height: 40px;
+  border: none;
+  background-color: white;
 }
 
 section#tagsBar button[data-active="true"] {
-  background-color: red;
+  background-color: var(--yellow);
 }
 
 section#tagsContainer {
@@ -231,4 +336,107 @@ section#tagsContainer button i {
 
 section#tagsContainer button.active {
   background-color: red;
+}
+
+section#recipesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 45px;
+  padding-top: 30px;
+}
+
+section#recipesContainer article {
+  position: relative;
+  width: 100%;
+  height: max-content;
+  border-radius: 21px;
+  box-shadow: 0px 4px 34px 30px #0000000a;
+  overflow: hidden;
+  background-color: white;
+}
+
+section#recipesContainer article .timer {
+  background-color: var(--yellow);
+  height: 24px;
+  line-height: 24px;
+  padding: 4px 10px;
+  text-align: center;
+  border-radius: 12px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+@media screen and (min-width: 810px) {
+  section#recipesContainer article {
+    width: calc(100% / 2 - 30px);
+  }
+}
+
+@media screen and (min-width: 1080px) {
+  section#recipesContainer article {
+    width: calc(100% / 3 - 30px);
+  }
+}
+
+section#recipesContainer article img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+
+section#recipesContainer article .recipeDescription {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+section#recipesContainer article .recipeDescription * {
+  width: 100%;
+}
+
+section#recipesContainer article .recipeDescription > div > p {
+  height: 90px;
+}
+
+section#recipesContainer article h1 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: Anton;
+}
+
+section#recipesContainer article p {
+  margin: 0;
+}
+
+section#recipesContainer article h2 {
+  margin: 0 0 5px 0;
+  font-size: 1.1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: manrope;
+}
+
+section#recipesContainer article .recipeDescription .ingContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  min-height: 160px;
+}
+
+section#recipesContainer article .recipeDescription .ingContainer .ingBloc {
+  width: calc(50% - 10px);
+  margin-bottom: 10px;
+}
+
+section#recipesContainer article .recipeDescription .ingContainer .ingBloc * {
+  margin: 0;
+}
+
+section#recipesContainer article .recipeDescription .ingContainer .ingBloc p {
+  color: grey;
 }

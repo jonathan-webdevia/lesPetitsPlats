@@ -35,33 +35,54 @@
     </header>
     <main>
       <section id="tagsBar">
-        <div class="tagSelector">
-          <div class="label">
-            ingrédients <em class="fa-solid fa-chevron-down"></em>
+        <div class="tagsSelectorContainer">
+          <div class="tagSelector">
+            <div class="label">
+              ingrédients <em class="fa-solid fa-chevron-down"></em>
+            </div>
+            <div class="items">
+              <div class="searchTags">
+                <input type="text" id="ingTagsSearch" />
+                <button class="burr">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <button class="reset"><i class="fa-solid fa-xmark"></i></button>
+              </div>
+              <ul class="ingList"></ul>
+            </div>
           </div>
-          <div class="items">
-            <input type="text" />
-            <ul class="ingList"></ul>
+          <div class="tagSelector">
+            <div class="label">
+              Appareil <em class="fa-solid fa-chevron-down"></em>
+            </div>
+            <div class="items">
+              <div class="searchTags">
+                <input type="text" id="appTagsSearch" />
+                <button class="burr">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <button class="reset"><i class="fa-solid fa-xmark"></i></button>
+              </div>
+              <ul class="appList"></ul>
+            </div>
+          </div>
+          <div class="tagSelector">
+            <div class="label">
+              ustensiles <em class="fa-solid fa-chevron-down"></em>
+            </div>
+            <div class="items">
+              <div class="searchTags">
+                <input type="text" id="ustTagsSearch" />
+                <button class="burr">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <button class="reset"><i class="fa-solid fa-xmark"></i></button>
+              </div>
+              <ul class="ustList"></ul>
+            </div>
           </div>
         </div>
-        <div class="tagSelector">
-          <div class="label">
-            Appareil <em class="fa-solid fa-chevron-down"></em>
-          </div>
-          <div class="items">
-            <input type="text" />
-            <ul class="appList"></ul>
-          </div>
-        </div>
-        <div class="tagSelector">
-          <div class="label">
-            ustensiles <em class="fa-solid fa-chevron-down"></em>
-          </div>
-          <div class="items">
-            <input type="text" />
-            <ul class="ustList"></ul>
-          </div>
-        </div>
+        <div id="nbrRecipes"></div>
       </section>
       <section id="tagsContainer"></section>
       <section id="recipesContainer"></section>
