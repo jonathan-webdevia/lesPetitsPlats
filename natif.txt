@@ -1,0 +1,5 @@
+fusion
+
+1 git checkout main
+puis verif avec git branch
+git merge natif
