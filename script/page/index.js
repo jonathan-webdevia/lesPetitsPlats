@@ -57,7 +57,7 @@ const displayer = (list) => {
   appTagsSearch.addEventListener("input", () => {
     let newAppList = [];
     for (let app in appList) {
-      if (!appList[app].includes(ingTagsSearch.value)) {
+      if (!appList[app].includes(appTagsSearch.value)) {
         delete newAppList[app];
       } else {
         newAppList.push(appList[app]);
@@ -71,7 +71,7 @@ const displayer = (list) => {
   ustTagsSearch.addEventListener("input", () => {
     let newUstList = [];
     for (let ust in ustList) {
-      if (!ustList[ust].includes(ingTagsSearch.value)) {
+      if (!ustList[ust].includes(ustTagsSearch.value)) {
         delete newUstList[ust];
       } else {
         newUstList.push(ustList[ust]);
@@ -88,7 +88,6 @@ const displayer = (list) => {
 
 /* ***** callback utils search methods ***** */
 const globalSearch = () => {
-  console.clear();
   let newList = recipes;
 
   const userInput = mainBar.value.trim().toLowerCase();
