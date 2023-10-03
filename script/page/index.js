@@ -46,7 +46,7 @@ const displayer = (list) => {
         delete newIngList[ing];
       } else {
         newIngList.push(ingList[ing]);
-        console.log("change")
+        console.log("change");
       }
     }
     displayer.tagsListDisplayer(newIngList, ustList, appList, activatedTags);
@@ -69,6 +69,7 @@ const displayer = (list) => {
   });
 
   ustTagsSearch.addEventListener("input", () => {
+    /* ***** create a new list to avoid destructuration ***** */
     let newUstList = [];
     for (let ust in ustList) {
       if (!ustList[ust].includes(ustTagsSearch.value)) {
@@ -119,50 +120,56 @@ const untag = () => {
     activatedTags.ustTags.length > 0
   ) {
     tagsContainer.innerHTML = "";
-    activatedTags.ingTags.forEach((tag) => {
+    for (const tag of activatedTags.ingTags) {
       const activeTagBtn = document.createElement("button");
       activeTagBtn.setAttribute("class", "untag");
       activeTagBtn.setAttribute("data-tag", tag);
       activeTagBtn.setAttribute("data-tagtype", "ing");
       activeTagBtn.innerHTML = `${tag} <i class="fa-solid fa-xmark"></i>`;
       tagsContainer.appendChild(activeTagBtn);
-    });
-    activatedTags.appTags.forEach((tag) => {
+    }
+    for (const tag of activatedTags.appTags) {
       const activeTagBtn = document.createElement("button");
       activeTagBtn.setAttribute("class", "untag");
       activeTagBtn.setAttribute("data-tag", tag);
       activeTagBtn.setAttribute("data-tagtype", "app");
       activeTagBtn.innerHTML = `${tag} <i class="fa-solid fa-xmark"></i>`;
       tagsContainer.appendChild(activeTagBtn);
-    });
-    activatedTags.ustTags.forEach((tag) => {
+    }
+    for (const tag of activatedTags.ustTags) {
       const activeTagBtn = document.createElement("button");
       activeTagBtn.setAttribute("class", "untag");
       activeTagBtn.setAttribute("data-tag", tag);
       activeTagBtn.setAttribute("data-tagtype", "ust");
       activeTagBtn.innerHTML = `${tag} <i class="fa-solid fa-xmark"></i>`;
       tagsContainer.appendChild(activeTagBtn);
-    });
+    }
   } else {
     tagsContainer.innerHTML = "";
   }
 
   const untagBtn = document.querySelectorAll(".untag");
 
-  untagBtn.forEach((btn) => {
+  for (const btn of untagBtn) {
     btn.addEventListener("click", () => {
       if (btn.dataset.tagtype === "ing") {
-        ingTagsList = ingTagsList.filter((tag) => {
-          return btn.dataset.tag != tag ? true : false;
-        });
+        for (const ingTag in ingTagsList) {
+          if (btn.dataset.tag === ingTagsList[ingTag]) {
+            ingTagsList.splice(ingTag, 1);
+          }
+        }
       } else if (btn.dataset.tagtype === "app") {
-        appTagsList = appTagsList.filter((tag) => {
-          return btn.dataset.tag != tag ? true : false;
-        });
+        for (const appTag in appTagsList) {
+          if (btn.dataset.tag === appTagsList[appTag]) {
+            appTagsList.splice(appTag, 1);
+          }
+        }
       } else if (btn.dataset.tagtype === "ust") {
-        ustTagsList = ustTagsList.filter((tag) => {
-          return btn.dataset.tag != tag ? true : false;
-        });
+        for (const ustTag in ustTagsList) {
+          if (btn.dataset.tag === ustTagsList[ustTag]) {
+            ustTagsList.splice(ustTag, 1);
+          }
+        }
       }
       activatedTags = {
         ingTags: ingTagsList,
@@ -172,7 +179,7 @@ const untag = () => {
       globalSearch();
       btn.remove();
     });
-  });
+  }
 };
 
 /* ***** tags selector controler ***** */
@@ -192,17 +199,23 @@ const tags = (tagsBtn) => {
       } else {
         tagBtn.dataset.active = "false";
         if (tagBtn.dataset.tagtype === "ing") {
-          ingTagsList = ingTagsList.filter((tag) => {
-            return tagBtn.dataset.tag != tag ? true : false;
-          });
+          for (const ingTag in ingTagsList) {
+            if (tagBtn.dataset.tag === ingTagsList[ingTag]) {
+              ingTagsList.splice(ingTag, 1);
+            }
+          }
         } else if (tagBtn.dataset.tagtype === "app") {
-          appTagsList = appTagsList.filter((tag) => {
-            return tagBtn.dataset.tag != tag ? true : false;
-          });
+          for (const appTag in appTagsList) {
+            if (tagBtn.dataset.tag === appTagsList[appTag]) {
+              appTagsList.splice(appTag, 1);
+            }
+          }
         } else if (tagBtn.dataset.tagtype === "ust") {
-          ustTagsList = ustTagsList.filter((tag) => {
-            return tagBtn.dataset.tag != tag ? true : false;
-          });
+          for (const ustTag in ustTagsList) {
+            if (tagBtn.dataset.tag === ustTagsList[ustTag]) {
+              ustTagsList.splice(ustTag, 1);
+            }
+          }
         }
       }
       activatedTags = {

@@ -1,6 +1,5 @@
 export const tagsDisplayer = (bool, tagBtn) => {
   const tagsContainer = document.querySelector("#tagsContainer");
-  const tagsSelector = document.querySelectorAll(".tag");
   const data = tagBtn.dataset.tag;
   const datatype = tagBtn.dataset.tagType;
 
@@ -18,16 +17,4 @@ export const tagsDisplayer = (bool, tagBtn) => {
     );
     btnbtn[0].remove();
   }
-
-  const untag = document.querySelectorAll(".untag");
-
-  untag.forEach((element) => {
-    element.addEventListener("click", () => {
-      const tagList = document.querySelector(
-        `.items button[data-tag = "${element.dataset.tag}"]`
-      );
-      tagList.dataset.active = "false";
-      element.remove();
-    });
-  });
 };
