@@ -40,30 +40,43 @@ const displayer = (list) => {
   ustTagsSearch.value = "";
 
   ingTagsSearch.addEventListener("input", () => {
-    let newIngList = ingList;
-    newIngList = ingList.filter((tag) => {
-      return tag.includes(ingTagsSearch.value) ? true : false;
-    });
+    let newIngList = [];
+    for (let ing in ingList) {
+      if (!ingList[ing].includes(ingTagsSearch.value)) {
+        delete newIngList[ing];
+      } else {
+        newIngList.push(ingList[ing]);
+        console.log("change")
+      }
+    }
     displayer.tagsListDisplayer(newIngList, ustList, appList, activatedTags);
     tagsBtn = document.querySelectorAll("button.tag");
     tags(tagsBtn);
   });
 
   appTagsSearch.addEventListener("input", () => {
-    let newAppList = appList;
-    newAppList = appList.filter((tag) => {
-      return tag.includes(appTagsSearch.value) ? true : false;
-    });
+    let newAppList = [];
+    for (let app in appList) {
+      if (!appList[app].includes(ingTagsSearch.value)) {
+        delete newAppList[app];
+      } else {
+        newAppList.push(appList[app]);
+      }
+    }
     displayer.tagsListDisplayer(ingList, ustList, newAppList, activatedTags);
     tagsBtn = document.querySelectorAll("button.tag");
     tags(tagsBtn);
   });
 
   ustTagsSearch.addEventListener("input", () => {
-    let newUstList = ustList;
-    newUstList = ustList.filter((tag) => {
-      return tag.includes(ustTagsSearch.value) ? true : false;
-    });
+    let newUstList = [];
+    for (let ust in ustList) {
+      if (!ustList[ust].includes(ingTagsSearch.value)) {
+        delete newUstList[ust];
+      } else {
+        newUstList.push(ustList[ust]);
+      }
+    }
     displayer.tagsListDisplayer(ingList, newUstList, appList, activatedTags);
     tagsBtn = document.querySelectorAll("button.tag");
     tags(tagsBtn);
@@ -165,7 +178,8 @@ const untag = () => {
 
 /* ***** tags selector controler ***** */
 const tags = (tagsBtn) => {
-  tagsBtn.forEach((tagBtn) => {
+  for (let index = 0; index < tagsBtn.length; index++) {
+    const tagBtn = tagsBtn[index];
     tagBtn.addEventListener("click", () => {
       if (tagBtn.dataset.active === "false") {
         tagBtn.dataset.active = "true";
@@ -200,7 +214,7 @@ const tags = (tagsBtn) => {
       globalSearch();
       untag();
     });
-  });
+  }
 };
 
 tags(tagsBtn);
