@@ -18,7 +18,7 @@ export class DisplayData {
       article.textContent = "Aucune recette trouvé, réitérer votre recherche";
       this.recipesContainer.appendChild(article);
     } else {
-      this.recipes.forEach((recipe) => {
+      for (const recipe of this.recipes) {
         /* ***** creation of DOM's elements ***** */
         const article = document.createElement("article");
         article.setAttribute("class", "recipeCard");
@@ -31,9 +31,11 @@ export class DisplayData {
 
         const recipeImg = document.createElement("img");
         let srcImgName = null;
+
         recipe.id < 10
           ? (srcImgName = `Recette0${recipe.id}.jpg`)
           : (srcImgName = `Recette${recipe.id}.jpg`);
+
         recipeImg.setAttribute(
           "src",
           `../../assets/photo/recipePhoto/${srcImgName}`
@@ -71,7 +73,7 @@ export class DisplayData {
         const ingContainer = document.createElement("div");
         ingContainer.setAttribute("class", "ingContainer");
 
-        recipe.ingredients.forEach((elmt) => {
+        for (const elmt of recipe.ingredients) {
           const ingBloc = document.createElement("div");
           ingBloc.setAttribute("class", "ingBloc");
           const ingName = document.createElement("strong");
@@ -89,7 +91,7 @@ export class DisplayData {
           ingBloc.appendChild(quantityBloc);
 
           ingContainer.appendChild(ingBloc);
-        });
+        }
 
         recipeDescription.appendChild(ingContainer);
 
@@ -97,7 +99,7 @@ export class DisplayData {
         article.appendChild(recipeDescription);
 
         this.recipesContainer.appendChild(article);
-      });
+      }
     }
   }
 
@@ -107,25 +109,25 @@ export class DisplayData {
     const ustList = [];
     const appList = [];
 
-    this.recipes.forEach((recipe) => {
-      recipe.ingredients.forEach((elmt) => {
+    for (const recipe of this.recipes) {
+      for (const elmt of recipe.ingredients) {
         const ing = elmt.ingredient.toLowerCase();
 
         if (!ingList.includes(ing)) {
           ingList.push(ing);
         }
-      });
-      recipe.ustensils.forEach((elmt) => {
+      }
+      for (const elmt of recipe.ustensils) {
         const ust = elmt.toLowerCase();
         if (!ustList.includes(ust)) {
           ustList.push(ust);
         }
-      });
+      }
       const app = recipe.appliance.toLowerCase();
       if (!appList.includes(app)) {
         appList.push(app);
       }
-    });
+    }
     return { ingList, ustList, appList };
   }
 
@@ -136,7 +138,7 @@ export class DisplayData {
     const appListDOM = document.querySelector(".appList");
 
     ingListDOM.innerHTML = "";
-    ingList.forEach((element) => {
+    for (const element of ingList) {
       let active = false;
       if (activatedTags.ingTags.includes(element)) {
         active = true;
@@ -152,10 +154,10 @@ export class DisplayData {
       button.textContent = element;
       item.appendChild(button);
       active === true ? ingListDOM.prepend(item) : ingListDOM.appendChild(item);
-    });
+    }
 
     ustListDOM.innerHTML = "";
-    ustList.forEach((element) => {
+    for (const element of ustList) {
       let active = false;
       if (activatedTags.ustTags.includes(element)) {
         active = true;
@@ -171,10 +173,10 @@ export class DisplayData {
       button.textContent = element;
       item.appendChild(button);
       active === true ? ustListDOM.prepend(item) : ustListDOM.appendChild(item);
-    });
+    }
 
     appListDOM.innerHTML = "";
-    appList.forEach((element) => {
+    for (const element of appList) {
       let active = false;
       if (activatedTags.appTags.includes(element)) {
         active = true;
@@ -190,6 +192,6 @@ export class DisplayData {
       button.textContent = element;
       item.appendChild(button);
       active === true ? appListDOM.prepend(item) : appListDOM.appendChild(item);
-    });
+    }
   }
 }

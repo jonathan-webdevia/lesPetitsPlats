@@ -1,7 +1,5 @@
 script natif ==>
 
-functions   - deployTagsItems
-            - SearchEngine
-            - display data
+functions   - SearchEngine
 
-            - tagsDisplayer, tagsListCreator, tagsSearch ==> utils ?
+            - display data

@@ -220,13 +220,16 @@ const tags = (tagsBtn) => {
           }
         }
       }
+
       activatedTags = {
         ingTags: ingTagsList,
         appTags: appTagsList,
         ustTags: ustTagsList,
       };
+
       globalSearch();
       untag();
+      
     });
   }
 };
