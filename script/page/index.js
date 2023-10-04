@@ -40,6 +40,7 @@ const displayer = (list) => {
   ustTagsSearch.value = "";
 
   ingTagsSearch.addEventListener("input", () => {
+    /* ***** create a new list to avoid destructuration ***** */
     let newIngList = [];
     for (let ing in ingList) {
       if (!ingList[ing].includes(ingTagsSearch.value)) {
@@ -55,6 +56,7 @@ const displayer = (list) => {
   });
 
   appTagsSearch.addEventListener("input", () => {
+    /* ***** create a new list to avoid destructuration ***** */
     let newAppList = [];
     for (let app in appList) {
       if (!appList[app].includes(appTagsSearch.value)) {
