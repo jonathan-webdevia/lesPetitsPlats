@@ -43,11 +43,8 @@ const displayer = (list) => {
     /* ***** create a new list to avoid destructuration ***** */
     let newIngList = [];
     for (let ing in ingList) {
-      if (!ingList[ing].includes(ingTagsSearch.value)) {
-        delete newIngList[ing];
-      } else {
+      if (ingList[ing].includes(ingTagsSearch.value)) {
         newIngList.push(ingList[ing]);
-        console.log("change");
       }
     }
     displayer.tagsListDisplayer(newIngList, ustList, appList, activatedTags);
@@ -59,9 +56,7 @@ const displayer = (list) => {
     /* ***** create a new list to avoid destructuration ***** */
     let newAppList = [];
     for (let app in appList) {
-      if (!appList[app].includes(appTagsSearch.value)) {
-        delete newAppList[app];
-      } else {
+      if (appList[app].includes(appTagsSearch.value)) {
         newAppList.push(appList[app]);
       }
     }
@@ -74,9 +69,7 @@ const displayer = (list) => {
     /* ***** create a new list to avoid destructuration ***** */
     let newUstList = [];
     for (let ust in ustList) {
-      if (!ustList[ust].includes(ustTagsSearch.value)) {
-        delete newUstList[ust];
-      } else {
+      if (ustList[ust].includes(ustTagsSearch.value)) {
         newUstList.push(ustList[ust]);
       }
     }
@@ -229,7 +222,6 @@ const tags = (tagsBtn) => {
 
       globalSearch();
       untag();
-      
     });
   }
 };

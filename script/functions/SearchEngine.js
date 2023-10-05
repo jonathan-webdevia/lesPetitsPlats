@@ -2,60 +2,63 @@ export class SearchEngine {
   constructor(list) {
     this.list = list;
   }
-  inputSearch(inputValue) {
-    let newList = this.list;
-    newList = this.list.filter((recipe) => {
-      let returnBool = false;
 
+  inputSearch(inputValue) {
+    /* ***** create a new list to avoid destructuration ***** */
+    let newList = [];
+
+    for (const recipe of this.list) {
       let recipeName = recipe.name.toLowerCase();
       let recipeDesc = recipe.description.toLowerCase();
 
       if (recipeName.includes(inputValue)) {
-        returnBool = true;
+        newList.push(recipe);
       } else if (recipeDesc.includes(inputValue)) {
-        returnBool = true;
+        newList.push(recipe);
       } else {
-        recipe.ingredients.forEach((elements) => {
-          if (elements.ingredient.toLowerCase() === inputValue) {
-            returnBool = true;
+        for (const elmt of recipe.ingredients) {
+          if (elmt.ingredient.toLowerCase().includes(inputValue)) {
+            newList.push(recipe);
           }
-        });
+        }
       }
-      return returnBool;
-    });
+    }
+
     return newList;
   }
+
   tagsSearch(activatedTags, list) {
     let newList = list;
-    activatedTags.appTags.forEach((tag) => {
+
+    for (const tag of activatedTags.appTags) {
       newList = newList.filter((recipe) => {
         return recipe.appliance.toLowerCase() === tag ? true : false;
       });
-    });
+    }
 
-    activatedTags.ingTags.forEach((tag) => {
+    for (const tag of activatedTags.ingTags) {
       newList = newList.filter((recipe) => {
         let returnBool = false;
-        recipe.ingredients.forEach((elmt) => {
+        for (const elmt of recipe.ingredients) {
           if (elmt.ingredient.toLowerCase() === tag) {
             returnBool = true;
           }
-        });
+        }
         return returnBool;
       });
-    });
+    }
 
-    activatedTags.ustTags.forEach((tag) => {
+    for (const tag of activatedTags.ustTags) {
       newList = newList.filter((recipe) => {
         let returnBool = false;
-        recipe.ustensils.forEach((ustensil) => {
-          if (ustensil.toLowerCase() === tag) {
+        for (const elmt of recipe.ustensils) {
+          if (elmt.toLowerCase() === tag) {
             returnBool = true;
           }
-        });
+        }
         return returnBool;
       });
-    });
+    }
 
     return newList;
   }
