@@ -42,9 +42,10 @@ const displayer = (list) => {
   ingTagsSearch.addEventListener("input", () => {
     /* ***** create a new list to avoid destructuration ***** */
     let newIngList = [];
-    for (let ing in ingList) {
-      if (ingList[ing].includes(ingTagsSearch.value)) {
-        newIngList.push(ingList[ing]);
+    for (let index = 0; index < ingList.length; index++) {
+      const ing = ingList[index];
+      if (ing.includes(ingTagsSearch.value)) {
+        newIngList.push(ing);
       }
     }
     displayer.tagsListDisplayer(newIngList, ustList, appList, activatedTags);
@@ -55,9 +56,10 @@ const displayer = (list) => {
   appTagsSearch.addEventListener("input", () => {
     /* ***** create a new list to avoid destructuration ***** */
     let newAppList = [];
-    for (let app in appList) {
-      if (appList[app].includes(appTagsSearch.value)) {
-        newAppList.push(appList[app]);
+    for (let index = 0; index < appList.length; index++) {
+      const app = appList[index];
+      if (app.includes(appTagsSearch.value)) {
+        newAppList.push(app);
       }
     }
     displayer.tagsListDisplayer(ingList, ustList, newAppList, activatedTags);
@@ -68,9 +70,10 @@ const displayer = (list) => {
   ustTagsSearch.addEventListener("input", () => {
     /* ***** create a new list to avoid destructuration ***** */
     let newUstList = [];
-    for (let ust in ustList) {
-      if (ustList[ust].includes(ustTagsSearch.value)) {
-        newUstList.push(ustList[ust]);
+    for (let index = 0; index < ustList.length; index++) {
+      const ust = ustList[index];
+      if (ust.includes(ustTagsSearch.value)) {
+        newUstList.push(ust);
       }
     }
     displayer.tagsListDisplayer(ingList, newUstList, appList, activatedTags);
@@ -115,7 +118,8 @@ const untag = () => {
     activatedTags.ustTags.length > 0
   ) {
     tagsContainer.innerHTML = "";
-    for (const tag of activatedTags.ingTags) {
+    for (let index = 0; index < activatedTags.ingTags.length; index++) {
+      const tag = activatedTags.ingTags[index];
       const activeTagBtn = document.createElement("button");
       activeTagBtn.setAttribute("class", "untag");
       activeTagBtn.setAttribute("data-tag", tag);
@@ -123,7 +127,8 @@ const untag = () => {
       activeTagBtn.innerHTML = `${tag} <i class="fa-solid fa-xmark"></i>`;
       tagsContainer.appendChild(activeTagBtn);
     }
-    for (const tag of activatedTags.appTags) {
+    for (let index = 0; index < activatedTags.appTags.length; index++) {
+      const tag = activatedTags.appTags[index];
       const activeTagBtn = document.createElement("button");
       activeTagBtn.setAttribute("class", "untag");
       activeTagBtn.setAttribute("data-tag", tag);
@@ -131,7 +136,8 @@ const untag = () => {
       activeTagBtn.innerHTML = `${tag} <i class="fa-solid fa-xmark"></i>`;
       tagsContainer.appendChild(activeTagBtn);
     }
-    for (const tag of activatedTags.ustTags) {
+    for (let index = 0; index < activatedTags.ustTags.length; index++) {
+      const tag = activatedTags.ustTags[index];
       const activeTagBtn = document.createElement("button");
       activeTagBtn.setAttribute("class", "untag");
       activeTagBtn.setAttribute("data-tag", tag);
@@ -145,23 +151,27 @@ const untag = () => {
 
   const untagBtn = document.querySelectorAll(".untag");
 
-  for (const btn of untagBtn) {
+  for (let index = 0; index < untagBtn.length; index++) {
+    const btn = untagBtn[index];
     btn.addEventListener("click", () => {
       if (btn.dataset.tagtype === "ing") {
-        for (const ingTag in ingTagsList) {
-          if (btn.dataset.tag === ingTagsList[ingTag]) {
+        for (let index = 0; index < ingTagsList.length; index++) {
+          const ingTag = ingTagsList[index];
+          if (btn.dataset.tag === ingTag) {
             ingTagsList.splice(ingTag, 1);
           }
         }
       } else if (btn.dataset.tagtype === "app") {
-        for (const appTag in appTagsList) {
-          if (btn.dataset.tag === appTagsList[appTag]) {
+        for (let index = 0; index < appTagsList.length; index++) {
+          const appTag = appTagsList[index];
+          if (btn.dataset.tag === appTag) {
             appTagsList.splice(appTag, 1);
           }
         }
       } else if (btn.dataset.tagtype === "ust") {
-        for (const ustTag in ustTagsList) {
-          if (btn.dataset.tag === ustTagsList[ustTag]) {
+        for (let index = 0; index < ustTagsList.length; index++) {
+          const ustTag = ustTagsList[index];
+          if (btn.dataset.tag === ustTag) {
             ustTagsList.splice(ustTag, 1);
           }
         }
@@ -194,20 +204,23 @@ const tags = (tagsBtn) => {
       } else {
         tagBtn.dataset.active = "false";
         if (tagBtn.dataset.tagtype === "ing") {
-          for (const ingTag in ingTagsList) {
-            if (tagBtn.dataset.tag === ingTagsList[ingTag]) {
+          for (let index = 0; index < ingTagsList.length; index++) {
+            const ingTag = ingTagsList[index];
+            if (tagBtn.dataset.tag === ingTag) {
               ingTagsList.splice(ingTag, 1);
             }
           }
         } else if (tagBtn.dataset.tagtype === "app") {
-          for (const appTag in appTagsList) {
-            if (tagBtn.dataset.tag === appTagsList[appTag]) {
+          for (let index = 0; index < appTagsList.length; index++) {
+            const appTag = appTagsList[index];
+            if (tagBtn.dataset.tag === appTag) {
               appTagsList.splice(appTag, 1);
             }
           }
         } else if (tagBtn.dataset.tagtype === "ust") {
-          for (const ustTag in ustTagsList) {
-            if (tagBtn.dataset.tag === ustTagsList[ustTag]) {
+          for (let index = 0; index < ustTagsList.length; index++) {
+            const ustTag = ustTagsList[index];
+            if (tagBtn.dataset.tag === ustTag) {
               ustTagsList.splice(ustTag, 1);
             }
           }

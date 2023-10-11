@@ -1,6 +1,7 @@
 export const deployTagsItems = () => {
   const labels = document.querySelectorAll("#tagsBar .tagSelector .label");
-  for (const label of labels) {
+  for (let index = 0; index < labels.length; index++) {
+    const label = labels[index];
     label.addEventListener("click", () => {
       const tagSelector = label.closest(".tagSelector");
       const itemsList = tagSelector.children[1];

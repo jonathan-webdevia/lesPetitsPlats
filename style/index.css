@@ -206,6 +206,24 @@ section#tagsBar .tagSelector .items {
   z-index: 10;
   box-sizing: border-box;
   border-radius: 0 0 10px 10px;
+  overflow: hidden;
+}
+
+section#tagsBar .tagSelector .items ul {
+  max-height: 300px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  background: #fff;
+}
+::-webkit-scrollbar-thumb {
+  border: solid 0 transparent;
+  background-color: var(--yellow);
+  margin-right: 10px;
 }
 
 section#tagsBar .tagSelector .items button {

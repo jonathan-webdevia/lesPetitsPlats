@@ -18,7 +18,8 @@ export class DisplayData {
       article.textContent = "Aucune recette trouvé, réitérer votre recherche";
       this.recipesContainer.appendChild(article);
     } else {
-      for (const recipe of this.recipes) {
+      for (let index = 0; index < this.recipes.length; index++) {
+        const recipe = this.recipes[index];
         /* ***** creation of DOM's elements ***** */
         const article = document.createElement("article");
         article.setAttribute("class", "recipeCard");
@@ -73,7 +74,8 @@ export class DisplayData {
         const ingContainer = document.createElement("div");
         ingContainer.setAttribute("class", "ingContainer");
 
-        for (const elmt of recipe.ingredients) {
+        for (let index = 0; index < recipe.ingredients.length; index++) {
+          const elmt = recipe.ingredients[index];
           const ingBloc = document.createElement("div");
           ingBloc.setAttribute("class", "ingBloc");
           const ingName = document.createElement("strong");
@@ -109,15 +111,18 @@ export class DisplayData {
     const ustList = [];
     const appList = [];
 
-    for (const recipe of this.recipes) {
-      for (const elmt of recipe.ingredients) {
+    for (let index = 0; index < this.recipes.length; index++) {
+      const recipe = this.recipes[index];
+      for (let index = 0; index < recipe.ingredients.length; index++) {
+        const elmt = recipe.ingredients[index];
         const ing = elmt.ingredient.toLowerCase();
 
         if (!ingList.includes(ing)) {
           ingList.push(ing);
         }
       }
-      for (const elmt of recipe.ustensils) {
+      for (let index = 0; index < recipe.ustensils.length; index++) {
+        const elmt = recipe.ustensils[index];
         const ust = elmt.toLowerCase();
         if (!ustList.includes(ust)) {
           ustList.push(ust);
@@ -128,6 +133,7 @@ export class DisplayData {
         appList.push(app);
       }
     }
+
     return { ingList, ustList, appList };
   }
 
@@ -138,7 +144,8 @@ export class DisplayData {
     const appListDOM = document.querySelector(".appList");
 
     ingListDOM.innerHTML = "";
-    for (const element of ingList) {
+    for (let index = 0; index < ingList.length; index++) {
+      const element = ingList[index];
       let active = false;
       if (activatedTags.ingTags.includes(element)) {
         active = true;
@@ -157,7 +164,8 @@ export class DisplayData {
     }
 
     ustListDOM.innerHTML = "";
-    for (const element of ustList) {
+    for (let index = 0; index < ustList.length; index++) {
+      const element = ustList[index];
       let active = false;
       if (activatedTags.ustTags.includes(element)) {
         active = true;
@@ -176,7 +184,8 @@ export class DisplayData {
     }
 
     appListDOM.innerHTML = "";
-    for (const element of appList) {
+    for (let index = 0; index < appList.length; index++) {
+      const element = appList[index];
       let active = false;
       if (activatedTags.appTags.includes(element)) {
         active = true;
