@@ -1,5 +1,544 @@
-script natif ==>
+/* ***** import utils class & functions ***** */
+class DisplayData {
+  constructor(recipes) {
+    this.recipes = recipes;
+    this.recipesContainer = document.querySelector("#recipesContainer");
+    this.nbrRecipesContainer = document.querySelector("#nbrRecipes");
+  }
 
-functions   - SearchEngine
+  cardsTemplate() {
+    this.recipesContainer.innerHTML = "";
+    let nbrRecipesContent = "";
+    this.recipes.length > 1
+      ? (nbrRecipesContent = `${this.recipes.length} recettes`)
+      : (nbrRecipesContent = `${this.recipes.length} recette`);
+    this.nbrRecipesContainer.textContent = nbrRecipesContent;
 
-            - display data
+    if (this.recipes.length === 0) {
+      const article = document.createElement("article");
+      article.textContent = "Aucune recette trouvé, réitérer votre recherche";
+      this.recipesContainer.appendChild(article);
+    } else {
+      for (let index = 0; index < this.recipes.length; index++) {
+        const recipe = this.recipes[index];
+        /* ***** creation of DOM's elements ***** */
+        const article = document.createElement("article");
+        article.setAttribute("class", "recipeCard");
+
+        const timer = document.createElement("div");
+        timer.setAttribute("class", "timer");
+        timer.textContent = `${recipe.time} min`;
+
+        article.appendChild(timer);
+
+        const recipeImg = document.createElement("img");
+        let srcImgName = null;
+
+        recipe.id < 10
+          ? (srcImgName = `Recette0${recipe.id}.jpg`)
+          : (srcImgName = `Recette${recipe.id}.jpg`);
+
+        recipeImg.setAttribute(
+          "src",
+          `../../assets/photo/recipePhoto/${srcImgName}`
+        );
+
+        const recipeDescription = document.createElement("div");
+        recipeDescription.setAttribute("class", "recipeDescription");
+
+        const recipeTitle = document.createElement("h1");
+        recipeTitle.textContent = recipe.name;
+
+        recipeDescription.appendChild(recipeTitle);
+
+        const recipeText = document.createElement("div");
+
+        const recipeDescTitle = document.createElement("h2");
+        recipeDescTitle.textContent = "RECETTE";
+
+        const descriptionContent = document.createElement("p");
+        descriptionContent.textContent = `${recipe.description.substring(
+          0,
+          180
+        )}...`;
+
+        recipeText.appendChild(recipeDescTitle);
+        recipeText.appendChild(descriptionContent);
+
+        recipeDescription.appendChild(recipeText);
+
+        const recipeIngTitle = document.createElement("h2");
+        recipeIngTitle.textContent = "INGREDIENTS";
+
+        recipeDescription.appendChild(recipeIngTitle);
+
+        const ingContainer = document.createElement("div");
+        ingContainer.setAttribute("class", "ingContainer");
+
+        for (let index = 0; index < recipe.ingredients.length; index++) {
+          const elmt = recipe.ingredients[index];
+          const ingBloc = document.createElement("div");
+          ingBloc.setAttribute("class", "ingBloc");
+          const ingName = document.createElement("strong");
+          ingName.style.display = "block";
+          ingName.textContent = elmt.ingredient;
+
+          const quantityBloc = document.createElement("p");
+          let quantityTxt = null;
+          elmt.unit
+            ? (quantityTxt = elmt.quantity + " " + elmt.unit)
+            : (quantityTxt = elmt.quantity);
+          quantityBloc.textContent = quantityTxt;
+
+          ingBloc.appendChild(ingName);
+          ingBloc.appendChild(quantityBloc);
+
+          ingContainer.appendChild(ingBloc);
+        }
+
+        recipeDescription.appendChild(ingContainer);
+
+        article.appendChild(recipeImg);
+        article.appendChild(recipeDescription);
+
+        this.recipesContainer.appendChild(article);
+      }
+    }
+  }
+
+  tagsListCreator() {
+    /* ***** create tags list options ***** */
+    const ingList = [];
+    const ustList = [];
+    const appList = [];
+
+    for (let index = 0; index < this.recipes.length; index++) {
+      const recipe = this.recipes[index];
+      for (let index = 0; index < recipe.ingredients.length; index++) {
+        const elmt = recipe.ingredients[index];
+        const ing = elmt.ingredient.toLowerCase();
+
+        if (!ingList.includes(ing)) {
+          ingList.push(ing);
+        }
+      }
+      for (let index = 0; index < recipe.ustensils.length; index++) {
+        const elmt = recipe.ustensils[index];
+        const ust = elmt.toLowerCase();
+        if (!ustList.includes(ust)) {
+          ustList.push(ust);
+        }
+      }
+      const app = recipe.appliance.toLowerCase();
+      if (!appList.includes(app)) {
+        appList.push(app);
+      }
+    }
+
+    return { ingList, ustList, appList };
+  }
+
+  tagsListDisplayer(ingList, ustList, appList, activatedTags) {
+    /* ***** ADD LIST TO THE DOM ***** */
+    const ingListDOM = document.querySelector(".ingList");
+    const ustListDOM = document.querySelector(".ustList");
+    const appListDOM = document.querySelector(".appList");
+
+    ingListDOM.innerHTML = "";
+    for (let index = 0; index < ingList.length; index++) {
+      const element = ingList[index];
+      let active = false;
+      if (activatedTags.ingTags.includes(element)) {
+        active = true;
+      } else {
+        active = false;
+      }
+      const item = document.createElement("li");
+      const button = document.createElement("button");
+      button.setAttribute("class", "tag");
+      button.setAttribute("data-tagtype", "ing");
+      button.setAttribute("data-active", active);
+      button.setAttribute("data-tag", element);
+      button.textContent = element;
+      item.appendChild(button);
+      active === true ? ingListDOM.prepend(item) : ingListDOM.appendChild(item);
+    }
+
+    ustListDOM.innerHTML = "";
+    for (let index = 0; index < ustList.length; index++) {
+      const element = ustList[index];
+      let active = false;
+      if (activatedTags.ustTags.includes(element)) {
+        active = true;
+      } else {
+        active = false;
+      }
+      const item = document.createElement("li");
+      const button = document.createElement("button");
+      button.setAttribute("class", "tag");
+      button.setAttribute("data-active", active);
+      button.setAttribute("data-tag", element);
+      button.setAttribute("data-tagtype", "ust");
+      button.textContent = element;
+      item.appendChild(button);
+      active === true ? ustListDOM.prepend(item) : ustListDOM.appendChild(item);
+    }
+
+    appListDOM.innerHTML = "";
+    for (let index = 0; index < appList.length; index++) {
+      const element = appList[index];
+      let active = false;
+      if (activatedTags.appTags.includes(element)) {
+        active = true;
+      } else {
+        active = false;
+      }
+      const item = document.createElement("li");
+      const button = document.createElement("button");
+      button.setAttribute("class", "tag");
+      button.setAttribute("data-tagtype", "app");
+      button.setAttribute("data-active", active);
+      button.setAttribute("data-tag", element);
+      button.textContent = element;
+      item.appendChild(button);
+      active === true ? appListDOM.prepend(item) : appListDOM.appendChild(item);
+    }
+  }
+}
+
+class SearchEngine {
+  constructor(list) {
+    this.list = list;
+  }
+
+  inputSearch(inputValue) {
+    /* ***** create a new list to avoid destructuration ***** */
+    let newList = [];
+
+    for (let index = 0; index < this.list.length; index++) {
+      const recipe = this.list[index];
+      let recipeName = recipe.name.toLowerCase();
+      let recipeDesc = recipe.description.toLowerCase();
+
+      if (recipeName.includes(inputValue)) {
+        newList.push(recipe);
+      } else if (recipeDesc.includes(inputValue)) {
+        newList.push(recipe);
+      } else {
+        for (let index = 0; index < recipe.ingredients.length; index++) {
+          const elmt = recipe.ingredients[index];
+          if (elmt.ingredient.toLowerCase().includes(inputValue)) {
+            newList.push(recipe);
+          }
+        }
+      }
+    }
+    return newList;
+  }
+
+  tagsSearch(activatedTags, list) {
+    let newList = list;
+
+    for (let index = 0; index < activatedTags.appTags.length; index++) {
+      const tag = activatedTags.appTags[index];
+      newList = newList.filter((recipe) => {
+        return recipe.appliance.toLowerCase() === tag ? true : false;
+      });
+    }
+
+    for (let index = 0; index < activatedTags.ingTags.length; index++) {
+      const tag = activatedTags.ingTags[index];
+      newList = newList.filter((recipe) => {
+        let returnBool = false;
+        for (let index = 0; index < recipe.ingredients.length; index++) {
+          const elmt = recipe.ingredients[index];
+          if (elmt.ingredient.toLowerCase() === tag) {
+            returnBool = true;
+          }
+        }
+        return returnBool;
+      });
+    }
+
+    for (let index = 0; index < activatedTags.ustTags.length; index++) {
+      const tag = activatedTags.ustTags[index];
+      newList = newList.filter((recipe) => {
+        let returnBool = false;
+        for (let index = 0; index < recipe.ustensils.length; index++) {
+          const elmt = recipe.ustensils[index];
+          if (elmt.toLowerCase() === tag) {
+            returnBool = true;
+          }
+        }
+        return returnBool;
+      });
+    }
+
+    return newList;
+  }
+}
+
+const deployTagsItems = () => {
+  const labels = document.querySelectorAll("#tagsBar .tagSelector .label");
+  for (let index = 0; index < labels.length; index++) {
+    const label = labels[index];
+    label.addEventListener("click", () => {
+      const tagSelector = label.closest(".tagSelector");
+      const itemsList = tagSelector.children[1];
+      if (!itemsList.classList.contains("active")) {
+        itemsList.style.display = "block";
+        itemsList.classList.remove("unactive");
+        itemsList.classList.add("active");
+        label.classList.remove("unactive");
+        label.classList.add("active");
+      } else {
+        itemsList.classList.remove("active");
+        itemsList.classList.add("unactive");
+        label.classList.remove("active");
+        label.classList.add("unactive");
+        setTimeout(() => {
+          itemsList.style.display = "none";
+        }, 1000);
+      }
+    });
+  }
+};
+
+
+/* ***** DOM'S ELMTS ***** */
+const mainBar = document.querySelector("#search");
+
+/* ***** essential var ***** */
+let tagsBtn = [];
+let activatedTags = {
+  ingTags: [],
+  appTags: [],
+  ustTags: [],
+};
+let ingTagsList = [];
+let appTagsList = [];
+let ustTagsList = [];
+
+const ingTagsSearch = document.querySelector("#ingTagsSearch");
+const appTagsSearch = document.querySelector("#appTagsSearch");
+const ustTagsSearch = document.querySelector("#ustTagsSearch");
+
+/* ***** lunch research process ***** */
+const search = new SearchEngine(recipes);
+
+/* ***** INIT AND UPDATE DISPLAY ***** */
+const displayer = (list) => {
+  const displayer = new DisplayData(list);
+
+  displayer.cardsTemplate();
+
+  let { ingList, ustList, appList } = displayer.tagsListCreator();
+  displayer.tagsListDisplayer(ingList, ustList, appList, activatedTags);
+
+  ingTagsSearch.value = "";
+  appTagsSearch.value = "";
+  ustTagsSearch.value = "";
+
+  ingTagsSearch.addEventListener("input", () => {
+    /* ***** create a new list to avoid destructuration ***** */
+    let newIngList = [];
+    for (let index = 0; index < ingList.length; index++) {
+      const ing = ingList[index];
+      if (ing.includes(ingTagsSearch.value)) {
+        newIngList.push(ing);
+      }
+    }
+    displayer.tagsListDisplayer(newIngList, ustList, appList, activatedTags);
+    tagsBtn = document.querySelectorAll("button.tag");
+    tags(tagsBtn);
+  });
+
+  appTagsSearch.addEventListener("input", () => {
+    /* ***** create a new list to avoid destructuration ***** */
+    let newAppList = [];
+    for (let index = 0; index < appList.length; index++) {
+      const app = appList[index];
+      if (app.includes(appTagsSearch.value)) {
+        newAppList.push(app);
+      }
+    }
+    displayer.tagsListDisplayer(ingList, ustList, newAppList, activatedTags);
+    tagsBtn = document.querySelectorAll("button.tag");
+    tags(tagsBtn);
+  });
+
+  ustTagsSearch.addEventListener("input", () => {
+    /* ***** create a new list to avoid destructuration ***** */
+    let newUstList = [];
+    for (let index = 0; index < ustList.length; index++) {
+      const ust = ustList[index];
+      if (ust.includes(ustTagsSearch.value)) {
+        newUstList.push(ust);
+      }
+    }
+    displayer.tagsListDisplayer(ingList, newUstList, appList, activatedTags);
+    tagsBtn = document.querySelectorAll("button.tag");
+    tags(tagsBtn);
+  });
+
+  tagsBtn = document.querySelectorAll("button.tag");
+  tags(tagsBtn);
+};
+
+/* ***** callback utils search methods ***** */
+const globalSearch = () => {
+  let newList = recipes;
+
+  const userInput = mainBar.value.trim().toLowerCase();
+
+  if (userInput.length > 2) {
+    newList = search.inputSearch(userInput);
+  }
+
+  if (
+    ingTagsList.length > 0 ||
+    appTagsList.length > 0 ||
+    ustTagsList.length > 0
+  ) {
+    newList = search.tagsSearch(activatedTags, newList);
+  }
+
+  displayer(newList);
+};
+
+/* ***** mainbar research ***** */
+mainBar.addEventListener("input", globalSearch);
+
+/* ***** tagsBar controler ***** */
+const untag = () => {
+  const tagsContainer = document.querySelector("#tagsContainer");
+  if (
+    activatedTags.ingTags.length > 0 ||
+    activatedTags.appTags.length > 0 ||
+    activatedTags.ustTags.length > 0
+  ) {
+    tagsContainer.innerHTML = "";
+    for (let index = 0; index < activatedTags.ingTags.length; index++) {
+      const tag = activatedTags.ingTags[index];
+      const activeTagBtn = document.createElement("button");
+      activeTagBtn.setAttribute("class", "untag");
+      activeTagBtn.setAttribute("data-tag", tag);
+      activeTagBtn.setAttribute("data-tagtype", "ing");
+      activeTagBtn.innerHTML = `${tag} <i class="fa-solid fa-xmark"></i>`;
+      tagsContainer.appendChild(activeTagBtn);
+    }
+    for (let index = 0; index < activatedTags.appTags.length; index++) {
+      const tag = activatedTags.appTags[index];
+      const activeTagBtn = document.createElement("button");
+      activeTagBtn.setAttribute("class", "untag");
+      activeTagBtn.setAttribute("data-tag", tag);
+      activeTagBtn.setAttribute("data-tagtype", "app");
+      activeTagBtn.innerHTML = `${tag} <i class="fa-solid fa-xmark"></i>`;
+      tagsContainer.appendChild(activeTagBtn);
+    }
+    for (let index = 0; index < activatedTags.ustTags.length; index++) {
+      const tag = activatedTags.ustTags[index];
+      const activeTagBtn = document.createElement("button");
+      activeTagBtn.setAttribute("class", "untag");
+      activeTagBtn.setAttribute("data-tag", tag);
+      activeTagBtn.setAttribute("data-tagtype", "ust");
+      activeTagBtn.innerHTML = `${tag} <i class="fa-solid fa-xmark"></i>`;
+      tagsContainer.appendChild(activeTagBtn);
+    }
+  } else {
+    tagsContainer.innerHTML = "";
+  }
+
+  const untagBtn = document.querySelectorAll(".untag");
+
+  for (let index = 0; index < untagBtn.length; index++) {
+    const btn = untagBtn[index];
+    btn.addEventListener("click", () => {
+      if (btn.dataset.tagtype === "ing") {
+        for (let index = 0; index < ingTagsList.length; index++) {
+          const ingTag = ingTagsList[index];
+          if (btn.dataset.tag === ingTag) {
+            ingTagsList.splice(ingTag, 1);
+          }
+        }
+      } else if (btn.dataset.tagtype === "app") {
+        for (let index = 0; index < appTagsList.length; index++) {
+          const appTag = appTagsList[index];
+          if (btn.dataset.tag === appTag) {
+            appTagsList.splice(appTag, 1);
+          }
+        }
+      } else if (btn.dataset.tagtype === "ust") {
+        for (let index = 0; index < ustTagsList.length; index++) {
+          const ustTag = ustTagsList[index];
+          if (btn.dataset.tag === ustTag) {
+            ustTagsList.splice(ustTag, 1);
+          }
+        }
+      }
+      activatedTags = {
+        ingTags: ingTagsList,
+        appTags: appTagsList,
+        ustTags: ustTagsList,
+      };
+      globalSearch();
+      btn.remove();
+    });
+  }
+};
+
+/* ***** tags selector controler ***** */
+const tags = (tagsBtn) => {
+  for (let index = 0; index < tagsBtn.length; index++) {
+    const tagBtn = tagsBtn[index];
+    tagBtn.addEventListener("click", () => {
+      if (tagBtn.dataset.active === "false") {
+        tagBtn.dataset.active = "true";
+        if (tagBtn.dataset.tagtype === "ing") {
+          ingTagsList.push(tagBtn.dataset.tag);
+        } else if (tagBtn.dataset.tagtype === "app") {
+          appTagsList.push(tagBtn.dataset.tag);
+        } else if (tagBtn.dataset.tagtype === "ust") {
+          ustTagsList.push(tagBtn.dataset.tag);
+        }
+      } else {
+        tagBtn.dataset.active = "false";
+        if (tagBtn.dataset.tagtype === "ing") {
+          for (let index = 0; index < ingTagsList.length; index++) {
+            const ingTag = ingTagsList[index];
+            if (tagBtn.dataset.tag === ingTag) {
+              ingTagsList.splice(ingTag, 1);
+            }
+          }
+        } else if (tagBtn.dataset.tagtype === "app") {
+          for (let index = 0; index < appTagsList.length; index++) {
+            const appTag = appTagsList[index];
+            if (tagBtn.dataset.tag === appTag) {
+              appTagsList.splice(appTag, 1);
+            }
+          }
+        } else if (tagBtn.dataset.tagtype === "ust") {
+          for (let index = 0; index < ustTagsList.length; index++) {
+            const ustTag = ustTagsList[index];
+            if (tagBtn.dataset.tag === ustTag) {
+              ustTagsList.splice(ustTag, 1);
+            }
+          }
+        }
+      }
+
+      activatedTags = {
+        ingTags: ingTagsList,
+        appTags: appTagsList,
+        ustTags: ustTagsList,
+      };
+
+      globalSearch();
+      untag();
+    });
+  }
+};
+
+tags(tagsBtn);
+displayer(recipes);
+deployTagsItems();
